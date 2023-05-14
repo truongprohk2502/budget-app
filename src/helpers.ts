@@ -55,3 +55,30 @@ export const fetchData = (key: string) => {
 
 export const delay = (time: number) =>
   new Promise((res) => setTimeout(res, time));
+
+export const calculateSpentByBudget = (budgetId: number) => {
+  const expenses: any[] = fetchData("expenses") ?? [];
+  const budgetSpent = expenses.reduce((total, expense) => {
+    if (expense.budgetId !== budgetId) return total;
+
+    return (total += expense.amount);
+  }, 0);
+  return budgetSpent;
+};
+
+export const formatDateToLocaleString = (epoch: string | number) =>
+  new Date(epoch).toLocaleDateString();
+
+export const formatPercentage = (amt: number) => {
+  return amt.toLocaleString(undefined, {
+    style: "percent",
+    minimumFractionDigits: 0,
+  });
+};
+
+export const formatCurrency = (amt: number) => {
+  return amt.toLocaleString(undefined, {
+    style: "currency",
+    currency: "USD",
+  });
+};

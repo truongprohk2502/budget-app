@@ -8,17 +8,21 @@ import {
 import Intro from "./Intro";
 import AddBudgetForm, { IBudget } from "./AddBudgetForm";
 import { createBudget, createExpense, delay, fetchData } from "../../helpers";
-import AddExpenseForm from "./AddExpenseForm";
+import AddExpenseForm, { IExpense } from "./AddExpenseForm";
+import BudgetItem from "./BudgetItem";
+import ExpenseTable from "./ExpenseTable";
 
 export interface ILoaderData {
   userName: string | null;
   budgets: IBudget[];
+  expenses: IExpense[];
 }
 
 export const dashboardLoader: LoaderFunction = () => {
   const userName = localStorage.getItem("userName");
   const budgets = fetchData("budgets") ?? [];
-  return { userName, budgets };
+  const expenses = fetchData("expenses");
+  return { userName, budgets, expenses };
 };
 
 export const dashboardAction: ActionFunction = async ({ request }) => {
@@ -59,7 +63,7 @@ export const dashboardAction: ActionFunction = async ({ request }) => {
 };
 
 const Dashboard: FC = () => {
-  const { userName, budgets } = useLoaderData() as ILoaderData;
+  const { userName, budgets, expenses } = useLoaderData() as ILoaderData;
 
   return (
     <>
@@ -75,6 +79,22 @@ const Dashboard: FC = () => {
                   <AddBudgetForm />
                   <AddExpenseForm budgets={budgets} />
                 </div>
+                <h2>Existing Budgets</h2>
+                <div className="budgets">
+                  {budgets.map((budget) => (
+                    <BudgetItem key={budget.id} budget={budget} />
+                  ))}
+                </div>
+                {expenses && expenses.length > 0 && (
+                  <div className="grid-md">
+                    <h2>Recent Expenses</h2>
+                    <ExpenseTable
+                      expenses={expenses.sort(
+                        (a, b) => b.createdAt - a.createdAt
+                      )}
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <div className="grid-sm">

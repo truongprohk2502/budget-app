@@ -3,6 +3,14 @@ import { useFetcher } from "react-router-dom";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { IBudget } from "./AddBudgetForm";
 
+export interface IExpense {
+  id: number;
+  name: string;
+  amount: number;
+  createdAt: number;
+  budgetId: string;
+}
+
 interface IProps {
   budgets: IBudget[];
 }
