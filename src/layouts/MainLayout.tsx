@@ -4,12 +4,11 @@ import wave from "../assets/wave.svg";
 import Navigation from "../components/Navigation";
 
 export interface ILoaderData {
-  userName: string;
+  userName: string | null;
 }
 
 export function mainLoader() {
   const userName = localStorage.getItem("userName");
-  if (!userName) throw Error("Not found error");
   return { userName };
 }
 
