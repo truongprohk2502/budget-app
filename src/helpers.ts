@@ -3,6 +3,21 @@ const generateRandomColor = () => {
   return `${existingBudgetLength * 34} 65% 50%`;
 };
 
+interface IGetMatchingItem {
+  category: string;
+  key: string;
+  value: string;
+}
+
+export const getAllMatchingItems = ({
+  category,
+  key,
+  value,
+}: IGetMatchingItem) => {
+  const data: any[] = fetchData(category) ?? [];
+  return data.filter((item) => item[key] === value);
+};
+
 interface ICreateBudget {
   name: string;
   amount: number;
@@ -51,6 +66,20 @@ export const fetchData = (key: string) => {
   } catch {
     return null;
   }
+};
+
+interface IDeleteItem {
+  key: string;
+  id: string;
+}
+
+export const deleteItem = ({ key, id }: IDeleteItem) => {
+  const existingData = fetchData(key);
+  if (id && Array.isArray(existingData)) {
+    const newData = existingData.filter((item) => item.id !== id);
+    return localStorage.setItem(key, JSON.stringify(newData));
+  }
+  return localStorage.removeItem(key);
 };
 
 export const delay = (time: number) =>

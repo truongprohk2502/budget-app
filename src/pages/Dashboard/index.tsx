@@ -8,7 +8,13 @@ import {
 } from "react-router-dom";
 import Intro from "./Intro";
 import AddBudgetForm, { IBudget } from "./AddBudgetForm";
-import { createBudget, createExpense, delay, fetchData } from "../../helpers";
+import {
+  createBudget,
+  createExpense,
+  delay,
+  deleteItem,
+  fetchData,
+} from "../../helpers";
 import AddExpenseForm, { IExpense } from "./AddExpenseForm";
 import BudgetItem from "./BudgetItem";
 import ExpenseTable from "../../components/ExpenseTable";
@@ -59,6 +65,16 @@ export const dashboardAction: ActionFunction = async ({ request }) => {
         return toast.success(`Expense ${values.newExpense} created!`);
       } catch (e) {
         throw new Error("There was a problem creating your expense.");
+      }
+    case "deleteExpense":
+      try {
+        deleteItem({
+          key: "expenses",
+          id: values.expenseId as string,
+        });
+        return toast.success("Expense deleted!");
+      } catch (e) {
+        throw new Error("There was a problem deleting your expense.");
       }
   }
 };

@@ -563,6 +563,10 @@ progress[value]::-webkit-progress-value {
   overflow-x: auto;
 }
 
+.table td {
+  padding: 20px 0;
+}
+
 table {
   width: 100%;
 }
