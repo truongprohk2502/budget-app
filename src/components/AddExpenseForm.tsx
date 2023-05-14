@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from "react";
 import { useFetcher } from "react-router-dom";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { IBudget } from "./AddBudgetForm";
+import { IBudget } from "../pages/Dashboard/AddBudgetForm";
 
 export interface IExpense {
   id: number;

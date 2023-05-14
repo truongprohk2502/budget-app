@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { IExpense } from "../pages/Dashboard/AddExpenseForm";
+import { IExpense } from "./AddExpenseForm";
 import {
   formatCurrency,
   formatDateToLocaleString,
@@ -10,9 +10,10 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 
 interface IProps {
   expenses: IExpense[];
+  showBudget?: boolean;
 }
 
-const ExpenseTable: FC<IProps> = ({ expenses }) => {
+const ExpenseTable: FC<IProps> = ({ expenses, showBudget = true }) => {
   const fetcher = useFetcher();
 
   const getBudget = (budgetId: string) => {
@@ -28,9 +29,11 @@ const ExpenseTable: FC<IProps> = ({ expenses }) => {
       <table>
         <thead>
           <tr>
-            {["Name", "Amount", "Date", "Budget"].map((i, index) => (
-              <th key={index}>{i}</th>
-            ))}
+            {["Name", "Amount", "Date", showBudget ? "Budget" : "", ""].map(
+              (i, index) => (
+                <th key={index}>{i}</th>
+              )
+            )}
           </tr>
         </thead>
         <tbody>
@@ -39,17 +42,19 @@ const ExpenseTable: FC<IProps> = ({ expenses }) => {
               <td>{expense.name}</td>
               <td>{formatCurrency(expense.amount)}</td>
               <td>{formatDateToLocaleString(expense.createdAt)}</td>
-              <td>
-                <Link
-                  to={`/budget/${expense.budgetId}`}
-                  style={{
-                    // @ts-ignore
-                    "--accent": getBudget(expense.budgetId).color,
-                  }}
-                >
-                  {getBudget(expense.budgetId).name}
-                </Link>
-              </td>
+              {showBudget && (
+                <td>
+                  <Link
+                    to={`/budget/${expense.budgetId}`}
+                    style={{
+                      // @ts-ignore
+                      "--accent": getBudget(expense.budgetId).color,
+                    }}
+                  >
+                    {getBudget(expense.budgetId).name}
+                  </Link>
+                </td>
+              )}
               <td>
                 <fetcher.Form method="post">
                   <input type="hidden" name="_action" value="deleteExpense" />

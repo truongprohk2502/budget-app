@@ -2,7 +2,7 @@ import { FC } from "react";
 import { ActionFunction, useLoaderData } from "react-router-dom";
 import ExpenseTable from "../components/ExpenseTable";
 import { delay, deleteItem, fetchData } from "../helpers";
-import { IExpense } from "./Dashboard/AddExpenseForm";
+import { IExpense } from "../components/AddExpenseForm";
 import { toast } from "react-toastify";
 
 interface ILoaderData {

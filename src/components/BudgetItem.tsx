@@ -3,8 +3,8 @@ import {
   calculateSpentByBudget,
   formatCurrency,
   formatPercentage,
-} from "../../helpers";
-import { IBudget } from "./AddBudgetForm";
+} from "../helpers";
+import { IBudget } from "../pages/Dashboard/AddBudgetForm";
 
 interface IProps {
   budget: IBudget;

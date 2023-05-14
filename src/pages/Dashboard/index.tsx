@@ -15,11 +15,11 @@ import {
   deleteItem,
   fetchData,
 } from "../../helpers";
-import AddExpenseForm, { IExpense } from "./AddExpenseForm";
-import BudgetItem from "./BudgetItem";
+import AddExpenseForm, { IExpense } from "../../components/AddExpenseForm";
+import BudgetItem from "../../components/BudgetItem";
 import ExpenseTable from "../../components/ExpenseTable";
 
-export interface ILoaderData {
+interface ILoaderData {
   userName: string | null;
   budgets: IBudget[];
   expenses: IExpense[];
