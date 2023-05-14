@@ -31,3 +31,6 @@ export const fetchData = (key: string) => {
     return null;
   }
 };
+
+export const delay = (time: number) =>
+  new Promise((res) => setTimeout(res, time));

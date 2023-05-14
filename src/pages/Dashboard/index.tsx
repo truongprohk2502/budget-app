@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Intro from "./Intro";
 import AddBudgetForm from "./AddBudgetForm";
-import { createBudget } from "../../helpers";
+import { createBudget, delay } from "../../helpers";
 
 export interface ILoaderData {
   userName: string | null;
@@ -25,14 +25,14 @@ export const dashboardAction: ActionFunction = async ({ request }) => {
   switch (_action) {
     case "newUser":
       try {
-        const userName = data.get("userName") as string;
-        localStorage.setItem("userName", userName);
-        return toast.success(`Welcome, ${userName}`);
+        localStorage.setItem("userName", values.userName as string);
+        return toast.success(`Welcome, ${values.userName}`);
       } catch (err) {
         throw new Error("There was a problem creating your account.");
       }
     case "createBudget":
       try {
+        await delay(500);
         createBudget({
           name: values.newBudget as string,
           amount: Number(values.newBudgetAmount),
