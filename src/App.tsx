@@ -2,10 +2,11 @@ import { FC } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
-import Error from "./pages/Error";
-import MainLayout, { mainLoader } from "./layouts/MainLayout";
 import { logoutAction } from "./actions/logout";
+import Error from "./pages/Error";
+import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
+import MainLayout, { mainLoader } from "./layouts/MainLayout";
+import ExpensesPage, { expensesLoader } from "./pages/ExpensesPage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ const router = createBrowserRouter([
         loader: dashboardLoader,
         action: dashboardAction,
         errorElement: <Error />,
+      },
+      {
+        path: "expenses",
+        element: <ExpensesPage />,
+        loader: expensesLoader,
       },
       {
         path: "logout",

@@ -4,13 +4,14 @@ import {
   useLoaderData,
   ActionFunction,
   LoaderFunction,
+  Link,
 } from "react-router-dom";
 import Intro from "./Intro";
 import AddBudgetForm, { IBudget } from "./AddBudgetForm";
 import { createBudget, createExpense, delay, fetchData } from "../../helpers";
 import AddExpenseForm, { IExpense } from "./AddExpenseForm";
 import BudgetItem from "./BudgetItem";
-import ExpenseTable from "./ExpenseTable";
+import ExpenseTable from "../../components/ExpenseTable";
 
 export interface ILoaderData {
   userName: string | null;
@@ -93,6 +94,11 @@ const Dashboard: FC = () => {
                         (a, b) => b.createdAt - a.createdAt
                       )}
                     />
+                    {expenses.length > 8 && (
+                      <Link to="/expenses" className="btn btn--dark">
+                        View all expenses
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>

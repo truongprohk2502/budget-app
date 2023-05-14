@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { IExpense } from "./AddExpenseForm";
-import { formatCurrency, formatDateToLocaleString } from "../../helpers";
+import { IExpense } from "../pages/Dashboard/AddExpenseForm";
+import { formatCurrency, formatDateToLocaleString } from "../helpers";
 
 interface IProps {
   expenses: IExpense[];
