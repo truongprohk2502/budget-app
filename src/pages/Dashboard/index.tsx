@@ -1,11 +1,12 @@
 import { FC } from "react";
+import { toast } from "react-toastify";
 import {
   useLoaderData,
   ActionFunction,
   LoaderFunction,
 } from "react-router-dom";
 import Intro from "./Intro";
-import { toast } from "react-toastify";
+import AddBudgetForm from "./AddBudgetForm";
 
 export interface ILoaderData {
   userName: string | null;
@@ -30,7 +31,26 @@ export const dashboardAction: ActionFunction = async ({ request }) => {
 const Dashboard: FC = () => {
   const { userName } = useLoaderData() as ILoaderData;
 
-  return <>{userName ? <p>{userName}</p> : <Intro />}</>;
+  return (
+    <>
+      {userName ? (
+        <div className="dashboard">
+          <h1>
+            Welcome back, <span className="accent">{userName}</span>
+          </h1>
+          <div className="grid-sm">
+            <div className="grid-lg">
+              <div className="flex-lg">
+                <AddBudgetForm />
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <Intro />
+      )}
+    </>
+  );
 };
 
 export default Dashboard;
