@@ -2,6 +2,14 @@ import { FC, useEffect, useRef } from "react";
 import { useFetcher } from "react-router-dom";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
+export interface IBudget {
+  id: number;
+  name: string;
+  amount: number;
+  createdAt: number;
+  color: string;
+}
+
 const AddBudgetForm: FC = () => {
   const fetcher = useFetcher();
   const isSubmitting = fetcher.state === "submitting";

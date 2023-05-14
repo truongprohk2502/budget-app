@@ -23,6 +23,27 @@ export const createBudget = ({ name, amount }: ICreateBudget) => {
   );
 };
 
+interface ICreateExpense {
+  name: string;
+  amount: number;
+  budgetId: string;
+}
+
+export const createExpense = ({ name, amount, budgetId }: ICreateExpense) => {
+  const newItem = {
+    id: crypto.randomUUID(),
+    name: name,
+    createdAt: Date.now(),
+    amount: +amount,
+    budgetId: budgetId,
+  };
+  const existingExpenses = fetchData("expenses") ?? [];
+  return localStorage.setItem(
+    "expenses",
+    JSON.stringify([...existingExpenses, newItem])
+  );
+};
+
 export const fetchData = (key: string) => {
   try {
     const valueStr = localStorage.getItem(key);

@@ -6,19 +6,23 @@ import {
   LoaderFunction,
 } from "react-router-dom";
 import Intro from "./Intro";
-import AddBudgetForm from "./AddBudgetForm";
-import { createBudget, delay } from "../../helpers";
+import AddBudgetForm, { IBudget } from "./AddBudgetForm";
+import { createBudget, createExpense, delay, fetchData } from "../../helpers";
+import AddExpenseForm from "./AddExpenseForm";
 
 export interface ILoaderData {
   userName: string | null;
+  budgets: IBudget[];
 }
 
 export const dashboardLoader: LoaderFunction = () => {
   const userName = localStorage.getItem("userName");
-  return { userName };
+  const budgets = fetchData("budgets") ?? [];
+  return { userName, budgets };
 };
 
 export const dashboardAction: ActionFunction = async ({ request }) => {
+  await delay(500);
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
 
@@ -32,20 +36,30 @@ export const dashboardAction: ActionFunction = async ({ request }) => {
       }
     case "createBudget":
       try {
-        await delay(500);
         createBudget({
           name: values.newBudget as string,
-          amount: Number(values.newBudgetAmount),
+          amount: +values.newBudgetAmount,
         });
         return toast.success("Budget created!");
       } catch (e) {
         throw new Error("There was a problem creating your budget.");
       }
+    case "createExpense":
+      try {
+        createExpense({
+          name: values.newExpense as string,
+          amount: +values.newExpenseAmount,
+          budgetId: values.newExpenseBudget as string,
+        });
+        return toast.success(`Expense ${values.newExpense} created!`);
+      } catch (e) {
+        throw new Error("There was a problem creating your expense.");
+      }
   }
 };
 
 const Dashboard: FC = () => {
-  const { userName } = useLoaderData() as ILoaderData;
+  const { userName, budgets } = useLoaderData() as ILoaderData;
 
   return (
     <>
@@ -55,11 +69,20 @@ const Dashboard: FC = () => {
             Welcome back, <span className="accent">{userName}</span>
           </h1>
           <div className="grid-sm">
-            <div className="grid-lg">
-              <div className="flex-lg">
+            {budgets && budgets.length > 0 ? (
+              <div className="grid-lg">
+                <div className="flex-lg">
+                  <AddBudgetForm />
+                  <AddExpenseForm budgets={budgets} />
+                </div>
+              </div>
+            ) : (
+              <div className="grid-sm">
+                <p>Personal budgeting is the secret to financial freedom.</p>
+                <p>Create a budget to get started!</p>
                 <AddBudgetForm />
               </div>
-            </div>
+            )}
           </div>
         </div>
       ) : (
