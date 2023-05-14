@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Dashboard, { dashboardLoader } from "./pages/Dashboard";
 import Error from "./pages/Error";
 import MainLayout, { mainLoader } from "./layouts/MainLayout";
@@ -30,6 +32,7 @@ const App: FC = () => {
   return (
     <div>
       <RouterProvider router={router} />
+      <ToastContainer />
     </div>
   );
 };
